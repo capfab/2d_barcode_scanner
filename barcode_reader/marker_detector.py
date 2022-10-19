@@ -56,7 +56,7 @@ class MarkerDetector(object):
             color = (0, 0, 255)
             thickness = 2
             for m in possible_markers:
-                points = [tuple(p) for p in m.points]
+                points = [tuple(map(int, p)) for p in m.points]
                 cv2.line(frame, points[0], points[1], color, thickness)
                 cv2.line(frame, points[1], points[2], color, thickness)
                 cv2.line(frame, points[2], points[3], color, thickness)
@@ -93,7 +93,7 @@ class MarkerDetector(object):
     @staticmethod
     def _find_contours(img, min_contour_points_allowed):
         """Find all contours within the given image."""
-        _, contours, _ = cv2.findContours(img,
+        contours, _ = cv2.findContours(img,
                                           mode=cv2.RETR_LIST,
                                           method=cv2.CHAIN_APPROX_NONE)
         return [c for c in contours if len(c) >= min_contour_points_allowed]
